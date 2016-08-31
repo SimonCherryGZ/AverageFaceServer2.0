@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sojson.common.dao.UImageMapper" >
+    <resultMap id="BaseResultMap" type="com.sojson.common.model.UImage" >
+        <id column="u_img_id" property="id" jdbcType="BIGINT" />
+        <result column="u_img_uid" property="uid" jdbcType="BIGINT" />
+        <result column="u_img_name" property="name" jdbcType="VARCHAR" />
+        <result column="u_img_url" property="url" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        u_img.id as u_img_id,
+        u_img.uid as u_img_uid,
+        u_img.name as u_img_name,
+        u_img.url as u_img_url
+    </sql>
+
+    <select id="findImageByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from u_img
+        where u_img.uid = #{uid,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from u_img
+        where u_img.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.sojson.common.model.UImage" >
+        insert into u_img (id, uid, name, url
+        )
+        values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+        )
+    </insert>
+
+</mapper>
