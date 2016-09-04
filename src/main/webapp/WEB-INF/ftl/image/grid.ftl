@@ -9,10 +9,11 @@
         <link   rel="shortcut icon" href="http://img.wenyifan.net/images/favicon.ico" />
         <link href="/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
         <link href="/css/common/base.css?${_v}" rel="stylesheet"/>
-        <script  src="http://open.sojson.com/common/jquery/jquery1.8.3.min.js"></script>
+        <#--<script  src="http://open.sojson.com/common/jquery/jquery1.8.3.min.js"></script>-->
         <script  src="/js/common/layer/layer.js"></script>
         <script  src="/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+        <#--<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>-->
+        <script src="/js/jquery-1.9.1.min.js"></script>
         <#--<script>-->
             <#--$(document).ready(function(){-->
                 <#--$("img").click(function(){-->
@@ -20,6 +21,7 @@
                 <#--});-->
             <#--});-->
         <#--</script>-->
+    </head>
 
         <style type="text/css">
             /*#grid ul{margin:0;padding:0}*/

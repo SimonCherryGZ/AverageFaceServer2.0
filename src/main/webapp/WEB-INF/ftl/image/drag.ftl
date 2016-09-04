@@ -1,56 +1,64 @@
 <!DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
-        <div id="drop_area" style="width:300px;height:200px;background:#fcc;"></div>
-        <div id="preview"></div>
-        <script>
-            //阻止默认事件
-            window.onload = function(){
-                //拖离
-                document.addEventListener('dragleave',function(e){e.preventDefault();});
-                //拖后放
-                document.addEventListener('drop',function(e){e.preventDefault();});
-                //拖进
-                document.addEventListener('dragenter',function(e){e.preventDefault();});
-                //拖来拖去
-                document.addEventListener('dragover',function(e){e.preventDefault();});
-                var box = document.getElementById('drop_area'); //拖拽区域
-                box.addEventListener("drop",function(e){
-                    e.preventDefault(); //取消默认浏览器拖拽效果
-                    var fileList = e.dataTransfer.files; //获取文件对象
-                    //检测是否是拖拽文件到页面的操作
-                    if(fileList.length == 0){return false;}
-                    //检测文件是不是图片
-                    if(fileList[0].type.indexOf('image') === -1){
-                        alert("您拖的不是图片！");
-                        return false;
-                    }
-                    //拖拉图片到浏览器，可以实现预览功能
-                    var img = window.webkitURL.createObjectURL(fileList[0]);
-                    var filename = fileList[0].name; //图片名称
-                    var filesize = Math.floor((fileList[0].size)/1024);
-                    if(filesize>500){
-                        alert("上传大小不能超过500K.");
-                        return false;
-                    }
-                    var image = document.createElement('img');
-                    image.src = img;
-                    var p = document.createElement("p");
-                    p.innerHTML = "图片名称："+filename+"<br/>大小："+filesize+"KB";
-                    document.getElementById("preview").appendChild(image);
-                    document.getElementById("preview").appendChild(p);
-                    //上传
-                    xhr = new XMLHttpRequest();
-                    xhr.open("post", "/image/drag", true);
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-                    var fd = new FormData();
-                    fd.append('mypic', fileList[0]);
-                    xhr.send(fd);
-                },false);
-            };
-        </script>
-    </body>
-</html>
+<meta charset="utf-8">
+
+<title>Dropzone simple example</title>
+
+
+<!--
+  DO NOT SIMPLY COPY THOSE LINES. Download the JS and CSS files from the
+  latest release (https://github.com/enyo/dropzone/releases/latest), and
+  host them yourself!
+-->
+<script src="/js/dropzone.js"></script>
+<link rel="stylesheet" href="/css/dropzone.css">
+
+<style>
+    .upload {
+        display: block;
+        width:150px;
+        height:150px;
+    }
+    .dropzone {
+        padding: 0;
+    }
+</style>
+
+
+<p>
+    This is the most minimal example of Dropzone. The upload in this example
+    doesn't work, because there is no actual server to handle the file upload.
+</p>
+
+<div class="dropz"></div>
+<script>
+    // myDropzone is the configuration for the element that has an id attribute
+    // with the value my-dropzone (or myDropzone)
+    Dropzone.options.myDropzone = {
+        maxFiles: 1,
+        init: function() {
+            var prevFile;
+
+            this.on("maxfilesexceeded", function(file) {
+                this.removeFile(file);
+            });
+//            this.on('addedfile', function() {
+//                if (typeof prevFile !== "undefined") {
+//                    this.removeFile(prevFile);
+//                }
+//            });
+            this.on('success', function(file, responseText) {
+//                prevFile = file;
+                this.removeFile(file);
+            });
+        }
+    };
+</script>
+
+<div class="upload">
+<form action="/image/drag.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">
+    <div class="fallback">
+        <input type="file" name="file" multiple/>
+    </div>
+</form>
+</div>
