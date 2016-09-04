@@ -78,6 +78,16 @@
 					  图片<span class="collapsing"></span>
 				  </a>
 				</li>
+				<li>
+				  <a class="dropdown-toggle" href="/image/drag.shtml">
+					  拖拽<span class="collapsing"></span>
+				  </a>
+				</li>
+                  <li>
+                      <a class="dropdown-toggle" href="/image/upload.shtml">
+                          上传<span class="collapsing"></span>
+                      </a>
+                  </li>
 			  </ul>
 	           <ul class="nav navbar-nav  pull-right" >
 				<li class="dropdown ${(index==10)?string('active','')}" style="color:#fff;">

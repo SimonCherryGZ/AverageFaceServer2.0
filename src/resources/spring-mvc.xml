@@ -139,7 +139,8 @@
 					/common/config/left.ftl as _left,
 					/common/config/html.ftl as _html,
 					/common/config/bottom.ftl as _footer,
-					/common/config/menu.ftl as _menu
+					/common/config/menu.ftl as _menu,
+					/image/input.ftl as _input
 				</prop>
 			</props>
 		</property>

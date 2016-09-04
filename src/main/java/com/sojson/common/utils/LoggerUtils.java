@@ -25,7 +25,11 @@ public class LoggerUtils {
 	 * 是否开启Debug
 	 */
 	public static boolean isDebug =  Logger.getLogger(LoggerUtils.class).isDebugEnabled();
-	
+
+	public static void info(Class<? extends Object> clazz ,String message){
+		Logger logger = Logger.getLogger(clazz);
+		logger.info(message);
+	}
 	/**
 	 * Debug 输出
 	 * @param clazz  	目标.Class
