@@ -181,6 +181,22 @@ public class GridController extends BaseController {
         return new ModelAndView("image/upload");
     }
 
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestParam("file")MultipartFile[] file) throws IOException {
+        for(int i = 0 ; i < file.length; i++){
+            if(!file[i].isEmpty()){
+                file[i].transferTo(new File(FilePath + file[i].getOriginalFilename()));
+                //uploadToQiNiu(FilePath + file[i].getOriginalFilename());
+                return "upload successful";
+            }else{
+                LoggerUtils.info(getClass(), "failed to upload");
+                return "failed to upload";
+            }
+        }
+        LoggerUtils.info(getClass(), "upload successful");
+        return "upload successful";
+    }
 
 //    public static HttpSession getSession() {
 //        HttpSession session = null;

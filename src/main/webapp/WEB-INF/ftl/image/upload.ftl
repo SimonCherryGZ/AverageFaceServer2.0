@@ -152,7 +152,7 @@
                     <label for="url">
                         <input type="text" id="url" name="url" class="url" placeholder=" 输入图片URL" style="width:460px; height:34px;">
                     </label>
-                    <input type="submit" id="upload" value="上传" style="height: 34px">
+                    <input type="button" id="imgUrl" value="上传" onclick="uploadImageUrl($('#url').val())" style="height: 34px">
                     <span style="color: #181818; margin-left: 10px"> OR </span>
                 </form>
             </div>
@@ -168,11 +168,16 @@
         <span style="color: #181818; margin-left: 10px"> 确定 </span>
     </div>
     <div class="drag">
-        <form action="/image/drag.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">
-            <div class="fallback">
-                <input type="file" name="file" multiple/>
-            </div>
-        </form>
+        <#--<form action="/image/upload.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">-->
+            <#--<div class="fallback">-->
+                <#--<input type="file" name="file" multiple/>-->
+            <#--</div>-->
+        <#--</form>-->
+            <form action="/image/upload.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">
+                <div class="fallback">
+                    <input type="file" name="file" multiple/>
+                </div>
+            </form>
     </div>
 </div>
 
@@ -207,7 +212,8 @@
             });
             this.on('success', function(file, responseText) {
                 prevFile = file;
-                window.location.reload(true);
+                //window.location.reload(true);
+                uploadImageFile(file);
             });
         }
     };

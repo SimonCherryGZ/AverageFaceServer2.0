@@ -238,3 +238,72 @@ $(function () {
   }
 
 });
+
+function uploadImageFile(file) {
+  var URL = window.URL || window.webkitURL;
+  var blobURL = URL.createObjectURL(file);
+  $('#image').one('built.cropper', function () {
+
+    // Revoke when load complete
+    URL.revokeObjectURL(blobURL);
+  }).cropper('reset').cropper('replace', blobURL);
+}
+
+function uploadImageUrl(url) {
+  // var blobURL = url;
+  // var URL = window.URL || window.webkitURL;
+  // $('#image').one('built.cropper', function () {
+  //
+  //   // Revoke when load complete
+  //   URL.revokeObjectURL(blobURL);
+  // }).cropper('reset').cropper('replace', blobURL);
+
+  var a = document.createElement('a');
+  var blobURL = url;
+  var filename = "D:/tmp/" + new Date().getTime() + ".jpg";
+  a.href = blobURL;
+  a.download = filename;
+  a.click();
+  // window.URL.revokeObjectURL(url);
+  $('#image').one('built.cropper', function () {
+
+    // Revoke when load complete
+    window.URL.revokeObjectURL(blobURL);
+  }).cropper('reset').cropper('replace', filename);
+
+}
+
+function saveImage() {
+  var $image = $('#image');
+  var src = $image.eq(0).attr("src");
+  var canvasData = $image.cropper("getCanvasData");
+  var cropBoxData = $image.cropper('getCropBoxData');
+
+  convertToData(src, canvasData, cropBoxData, function(basechar) {
+    // 回调后的函数处理
+  });
+}
+
+function convertToData(url, canvasData, cropData, callback) {
+  var cropw = cropData.width; // 剪切的宽
+  var croph = cropData.height; // 剪切的宽
+  var imgw = canvasData.width; // 图片缩放或则放大后的高
+  var imgh = canvasData.height; // 图片缩放或则放大后的高
+  var poleft = canvasData.left - cropdata.left; // canvas定位图片的左边位置
+  var potop = canvasData.top - cropdata.top; // canvas定位图片的上边位置
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext('2d');
+  canvas.width = cropw;
+  canvas.height = croph;
+  var img = new Image();
+  img.src = url;
+  img.onload = function() {
+    this.width = imgw;
+    this.height = imgh;
+    // 这里主要是懂得canvas与图片的裁剪之间的关系位置
+    ctx.drawImage(this, poleft, potop, this.width, this.height);
+    var base64 = canvas.toDataURL('image/jpg', 1);  // 这里的“1”是指的是处理图片的清晰度（0-1）之间，当然越小图片越模糊，处理后的图片大小也就越小
+    callback && callback(base64);	  // 回调base64字符串
+  }
+}
+
