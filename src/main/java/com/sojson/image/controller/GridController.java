@@ -171,39 +171,27 @@ public class GridController extends BaseController {
         return "upload successful";
     }
 
+    @RequestMapping(value = "cropper", method = RequestMethod.GET)
+    public ModelAndView cropper() {
+        return new ModelAndView("image/cropper");
+    }
+
     @RequestMapping(value = "upload", method = RequestMethod.GET)
     public ModelAndView upload() {
         return new ModelAndView("image/upload");
     }
 
-    @RequestMapping(value = "upload", method = RequestMethod.POST)
-    @ResponseBody
-    public String fileUpload(@RequestParam("file")MultipartFile[] file)throws Exception{
 
-        for(int i = 0 ; i < file.length; i++){
-            if(!file[i].isEmpty()){
-                file[i].transferTo(new File("D:/tmp/" + file[i].getOriginalFilename()));
-
-            }else{
-                LoggerUtils.info(getClass(), "failed to upload");
-                return "failed to upload";
-            }
-        }
-        LoggerUtils.info(getClass(), "upload successful");
-        return "upload successful";
-    }
-
+//    public static HttpSession getSession() {
+//        HttpSession session = null;
+//        try {
+//            session = getRequest().getSession();
+//        } catch (Exception e) {}
+//        return session;
+//    }
 //
-    public static HttpSession getSession() {
-        HttpSession session = null;
-        try {
-            session = getRequest().getSession();
-        } catch (Exception e) {}
-        return session;
-    }
-
-    public static HttpServletRequest getRequest() {
-        ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return attrs.getRequest();
-    }
+//    public static HttpServletRequest getRequest() {
+//        ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        return attrs.getRequest();
+//    }
 }

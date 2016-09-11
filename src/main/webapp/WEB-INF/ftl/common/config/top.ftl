@@ -84,6 +84,11 @@
 				  </a>
 				</li>
                   <li>
+                      <a class="dropdown-toggle" href="/image/cropper.shtml">
+                          裁剪<span class="collapsing"></span>
+                      </a>
+                  </li>
+                  <li>
                       <a class="dropdown-toggle" href="/image/upload.shtml">
                           上传<span class="collapsing"></span>
                       </a>
