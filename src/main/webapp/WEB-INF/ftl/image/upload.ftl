@@ -165,7 +165,7 @@
         <div class="img-preview preview-lg"></div>
     </div>
     <div style="height: 120px">
-        <span style="color: #181818; margin-left: 10px"> 确定 </span>
+        <button onclick="saveImage();">裁剪上传</button>
     </div>
     <div class="drag">
         <#--<form action="/image/upload.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">-->
@@ -173,7 +173,7 @@
                 <#--<input type="file" name="file" multiple/>-->
             <#--</div>-->
         <#--</form>-->
-            <form action="/image/upload.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">
+            <form action="/image/drag.shtml" enctype="multipart/form-data" method="post" id="my-dropzone" class="dropzone">
                 <div class="fallback">
                     <input type="file" name="file" multiple/>
                 </div>

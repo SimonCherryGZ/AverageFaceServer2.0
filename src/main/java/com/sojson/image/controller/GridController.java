@@ -1,5 +1,6 @@
 package com.sojson.image.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
@@ -25,7 +26,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.BASE64Decoder;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
@@ -160,7 +164,7 @@ public class GridController extends BaseController {
             if(!file[i].isEmpty()){
                 //file[i].transferTo(new File("D:/tmp/" + file[i].getOriginalFilename()));
                 file[i].transferTo(new File(FilePath + file[i].getOriginalFilename()));
-                uploadToQiNiu(FilePath + file[i].getOriginalFilename());
+                //uploadToQiNiu(FilePath + file[i].getOriginalFilename());
 
             }else{
                 LoggerUtils.info(getClass(), "failed to upload");
@@ -183,31 +187,26 @@ public class GridController extends BaseController {
 
     @RequestMapping(value = "upload", method = RequestMethod.POST)
     @ResponseBody
-    public String upload(@RequestParam("file")MultipartFile[] file) throws IOException {
-        for(int i = 0 ; i < file.length; i++){
-            if(!file[i].isEmpty()){
-                file[i].transferTo(new File(FilePath + file[i].getOriginalFilename()));
-                //uploadToQiNiu(FilePath + file[i].getOriginalFilename());
-                return "upload successful";
-            }else{
-                LoggerUtils.info(getClass(), "failed to upload");
-                return "failed to upload";
-            }
-        }
-        LoggerUtils.info(getClass(), "upload successful");
-        return "upload successful";
-    }
+    public String upload(ServletRequest request, ServletResponse response) {
+        String image = request.getParameter("image");
 
-//    public static HttpSession getSession() {
-//        HttpSession session = null;
-//        try {
-//            session = getRequest().getSession();
-//        } catch (Exception e) {}
-//        return session;
-//    }
-//
-//    public static HttpServletRequest getRequest() {
-//        ServletRequestAttributes attrs =(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        return attrs.getRequest();
-//    }
+        image = image.split(",")[1];
+        BASE64Decoder decoder = new BASE64Decoder();
+
+        try {
+            byte[] decodedBytes = decoder.decodeBuffer(image);
+            String imgFilePath = FilePath + String.valueOf(System.currentTimeMillis()) + ".jpg";
+            FileOutputStream out = new FileOutputStream(imgFilePath);        //新建一个文件输出器，并为它指定输出位置imgFilePath
+            out.write(decodedBytes); //利用文件输出器将二进制格式decodedBytes输出
+            out.close();
+
+            uploadToQiNiu(imgFilePath);
+
+            return "save image successful";
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "save image failed";
+        }
+    }
 }
