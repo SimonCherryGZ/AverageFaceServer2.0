@@ -209,4 +209,21 @@ public class GridController extends BaseController {
             return "save image failed";
         }
     }
+
+    @RequestMapping(value = "average", method = RequestMethod.GET)
+    @ResponseBody
+    public String average(ServletRequest request, ServletResponse response) {
+        try {
+            System.out.println("start");
+            ProcessBuilder pb = new ProcessBuilder("python", "faceAverage.py", "D:\\Simon\\Works\\Web\\Project\\AverageFaceServer2\\AverageFaceServer2.0\\src\\main\\webapp\\python\\input\\test\\");
+            pb.directory(new File("D:\\Simon\\Works\\Web\\Project\\AverageFaceServer2\\AverageFaceServer2.0\\src\\main\\webapp\\python"));
+            Process p = pb.start();
+            p.waitFor();
+            System.out.println("end");
+            return "save image successful";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "save image failed";
+        }
+    }
 }

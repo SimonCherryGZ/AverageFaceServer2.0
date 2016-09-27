@@ -93,6 +93,11 @@
                           上传<span class="collapsing"></span>
                       </a>
                   </li>
+                  <li>
+                      <a class="dropdown-toggle" href="/image/average.shtml">
+                          平均脸<span class="collapsing"></span>
+                      </a>
+                  </li>
 			  </ul>
 	           <ul class="nav navbar-nav  pull-right" >
 				<li class="dropdown ${(index==10)?string('active','')}" style="color:#fff;">
